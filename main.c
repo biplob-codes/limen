@@ -1,12 +1,8 @@
 #include <stdio.h>
 #include <string.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <sys/wait.h>
-#include "reader.h" 
 #include "parser.h"
 #include "execute.h"
-
+#define MAX_ARGS 64
 int main(){
     printf("Welcome to limen shell!!!\n");
     char buffer[256];
@@ -14,11 +10,8 @@ int main(){
         printf("\n$$$: ");
         if(fgets(buffer,sizeof(buffer),stdin)!=NULL){
         buffer[strcspn(buffer,"\n")]='\0';
-        int word_count=0;
-        char *words[10];
-        char *commands[word_count+1];
-        read_buffer(buffer,words,&word_count);
-        parse_words(words,commands,word_count);
+        char *commands[MAX_ARGS];
+        parse_buffer(buffer,commands,MAX_ARGS);
         execute(commands);
         }
         else{

@@ -1,4 +1,4 @@
 #ifndef PARSER_H
 #define PARSER_H
-void parse_words(char *words[],char *commands[],int word_count);
+void parse_buffer(char buffer[],char *commands[],int max_size);
 #endif
