@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "parser.h"
 #include "execute.h"
 #define MAX_ARGS 64
@@ -13,10 +14,12 @@ int main(){
         char *commands[MAX_ARGS];
         parse_buffer(buffer,commands,MAX_ARGS);
         execute(commands);
-        }
-        else{
-            printf("Something went wrong\n");
-            return 1;
+        }else if(feof(stdin)){
+            printf("\n");
+            exit(0);
+        }else{
+            fprintf(stderr,"something went wrong while taking input\n");
+            exit(1);
         }
     }
     return 0;
