@@ -15,7 +15,11 @@ if(strcmp(commands[0],"cd")==0){
    }
    return;
 }
- pid_t pid=fork();
+else if(strcmp(commands[0],"exit")==0){
+   exit(0);
+}
+else{
+    pid_t pid=fork();
  if (pid <0){
     perror("fork failed");
     exit(1);
@@ -28,4 +32,6 @@ if(strcmp(commands[0],"cd")==0){
  else{
     wait(NULL);
  }
+}
+
 }
