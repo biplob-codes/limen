@@ -11,7 +11,7 @@ if(strcmp(commands[0],"cd")==0){
    }
    if (chdir(dir)!=0){
       perror("cd");
-      exit(1);
+      return;
    }
    return;
 }
