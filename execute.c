@@ -1,3 +1,5 @@
+#define _POSIX_C_SOURCE 200809L
+
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
@@ -19,12 +21,18 @@ else if(strcmp(commands[0],"exit")==0){
    exit(0);
 }
 else{
+ struct sigaction ign={.sa_handler=SIG_IGN};
+ sigemptyset(&ign.sa_mask);
+ struct sigaction old;
+ sigaction(SIGINT,&ign,&old);
+
  pid_t pid=fork();
  if (pid <0){
     perror("fork failed");
     exit(1);
  }
  if(pid==0){
+   sigaction(SIGINT,&old,NULL);
    if(commands[1]!=NULL && strcmp(commands[1],"$?")==0){
    char buf[32];
    int result=snprintf(buf,sizeof(buf),"%d",*last_status);
@@ -39,6 +47,7 @@ else{
     exit(127);
  }
  else{
+   
    int status;
    pid_t waited=waitpid(pid,&status,0);
    if(waited<0){
@@ -52,7 +61,7 @@ else{
    else if(WIFSIGNALED(status)){
       *last_status=WTERMSIG(status)+128;
    }
-
+sigaction(SIGINT,&old,NULL);
  }
 }
 
