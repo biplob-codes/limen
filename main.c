@@ -4,6 +4,7 @@
 #include "parser.h"
 #include "execute.h"
 #define MAX_ARGS 64
+int last_status=0;
 int main(){
     printf("Welcome to limen shell!!!\n");
     char buffer[256];
@@ -13,7 +14,7 @@ int main(){
         buffer[strcspn(buffer,"\n")]='\0';
         char *commands[MAX_ARGS];
         parse_buffer(buffer,commands,MAX_ARGS);
-        execute(commands);
+        execute(commands,&last_status);
         }else if(feof(stdin)){
             printf("\n");
             exit(0);
