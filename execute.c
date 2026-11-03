@@ -32,9 +32,9 @@ else{
     exit(1);
  }
  if(pid==0){
+   char buf[32];
    sigaction(SIGINT,&old,NULL);
    if(commands[1]!=NULL && strcmp(commands[1],"$?")==0){
-   char buf[32];
    int result=snprintf(buf,sizeof(buf),"%d",*last_status);
    if(result<0 || result>=(int)sizeof(buf)){
       perror("converstion to string failed for last status");
