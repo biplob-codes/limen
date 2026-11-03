@@ -34,14 +34,17 @@ else{
  if(pid==0){
    char buf[32];
    sigaction(SIGINT,&old,NULL);
-   if(commands[1]!=NULL && strcmp(commands[1],"$?")==0){
-   int result=snprintf(buf,sizeof(buf),"%d",*last_status);
-   if(result<0 || result>=(int)sizeof(buf)){
-      perror("converstion to string failed for last status");
-      exit(1);
-   }
-   commands[1]=buf;
+   for(int i=1;commands[i]!=NULL;i++){
+      if(strcmp(commands[i],"$?")==0){
+      int result=snprintf(buf,sizeof(buf),"%d",*last_status);
+      if(result<0 || result>=(int)sizeof(buf)){
+       perror("converstion to string failed for last status");
+       exit(1);
+       }
+       commands[i]=buf;
 }
+   }
+
     execvp(commands[0],commands);
     perror("execv failed");
     exit(127);
