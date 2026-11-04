@@ -13,7 +13,8 @@ int main(){
         if(fgets(buffer,sizeof(buffer),stdin)!=NULL){
         buffer[strcspn(buffer,"\n")]='\0';
         char *commands[MAX_ARGS];
-        parse_buffer(buffer,commands,MAX_ARGS);
+        int result=parse_buffer(buffer,commands,MAX_ARGS);
+        if(result >0) continue;
         execute(commands,&last_status);
         }else if(feof(stdin)){
             printf("\n");
