@@ -11,7 +11,14 @@ int main(){
     while(1){
         printf("\n$$$: ");
         if(fgets(buffer,sizeof(buffer),stdin)!=NULL){
-        buffer[strcspn(buffer,"\n")]='\0';
+        int endline_index=strcspn(buffer,"\n");
+        if(buffer[endline_index]!='\n'){
+            printf("too long input");
+            char ch;
+            while((ch=getchar())!='\n' && ch!=EOF){}
+            continue;
+        }
+        buffer[endline_index]='\0';
         char *commands[MAX_ARGS];
         int result=parse_buffer(buffer,commands,MAX_ARGS);
         if(result >0) continue;
